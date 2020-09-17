@@ -1,12 +1,14 @@
 ﻿using System;
 
-namespace optimization
+namespace Optimization
 {
-    class Program
+  class Program
+  {
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+      // System.Numerics.Vector<int> x;
+      Vector<double> x = new Vector<double>(new double[] { 1, 2, 3 });
+      Console.WriteLine("Hello World!");
     }
+  }
 }
