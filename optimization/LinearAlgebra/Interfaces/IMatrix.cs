@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Optimization
 {
-  interface IMatrix<T> : IEnumerable<T>, IEnumerable<IVector<T>>
+  public interface IMatrix<T> : IEnumerable<T>, IEnumerable<IVector<T>>
   {
     int RowCount
     {
@@ -20,7 +20,7 @@ namespace Optimization
 
   }
 
-  class Matrix<T> : IMatrix<T>
+  public class Matrix<T> : IMatrix<T>
   {
     private IVector<T>[] components;
     public Matrix(IEnumerable<IVector<T>> components)

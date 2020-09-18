@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Optimization
 {
-  interface IVector<T> : IEnumerable<T>
+  public interface IVector<T> : IEnumerable<T>
   {
     int Count
     {
@@ -14,7 +14,7 @@ namespace Optimization
     T this[int index] { get; set; }
   }
 
-  class Vector<T> : IVector<T>
+  public class Vector<T> : IVector<T>
   {
     private T[] components;
     public Vector(IEnumerable<T> components)
@@ -27,7 +27,7 @@ namespace Optimization
 
     T IVector<T>.this[int index]
     {
-      get => Count < index ? this.components[index] : throw new ArgumentOutOfRangeException(nameof(index)); set
+      get => Count > index ? this.components[index] : throw new ArgumentOutOfRangeException(nameof(index)); set
       {
         if (Count >= index)
         {
@@ -38,7 +38,7 @@ namespace Optimization
       }
     }
 
-    public T this[int index] => Count < index ? this.components[index] : throw new ArgumentOutOfRangeException(nameof(index));
+    public T this[int index] => Count > index ? this.components[index] : throw new ArgumentOutOfRangeException(nameof(index));
 
     IEnumerator IEnumerable.GetEnumerator()
     {
