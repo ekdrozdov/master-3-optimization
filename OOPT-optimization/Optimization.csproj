@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>OOPT.Optimization</RootNamespace>
+    <AssemblyName>OOPT.Optimization</AssemblyName>
+    <Authors>Aleksashin A.S. and Drozdow E.K. and Makarov I.O.</Authors>
+    <Product>OOPT.Optimization</Product>
+    <PackageId>OOPT.Optimization</PackageId>
+  </PropertyGroup>
+
+</Project>
