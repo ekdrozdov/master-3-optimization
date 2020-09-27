@@ -36,16 +36,15 @@ namespace OOPT.Optimization.FunctionalAnalysis.Functionals
         public T Value(IFunction<T> f)
         {
             var sum = LinearAlgebra.Value.GetZeroValue();
-            int i = 0;
 
-            for (; i < _elements.Length - 1; i++)
+            for (var i = 0; i < _elements.Length - 1; i++)
             {
                 LinearAlgebra.Value.Add(ref sum, GaussLegendreRule<T>.Integrate(f, _elements[i], _elements[i + 1], _order));
             }
 
             if (_isCircle)
             {
-                LinearAlgebra.Value.Add(ref sum, GaussLegendreRule<T>.Integrate(f, _elements[i], _elements[i + 1], _order));
+                LinearAlgebra.Value.Add(ref sum, GaussLegendreRule<T>.Integrate(f, _elements[^1], _elements[0], _order));
             }
 
             return sum;
