@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OOPT.Optimization.Algebra.Extensions;
 using OOPT.Optimization.Algebra.Interfaces;
 using OOPT.Optimization.Algebra.LinearAlgebra;
 using OOPT.Optimization.FunctionalAnalysis.Interfaces;
