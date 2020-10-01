@@ -88,6 +88,8 @@ namespace OOPT.Optimization.Algebra.DiophantineEquations
 
                     if (CountOfFreeVariables <= 0)
                     {
+                        Console.WriteLine(stringBuilder.ToString());
+
                         continue;
                     }
 
@@ -124,6 +126,7 @@ namespace OOPT.Optimization.Algebra.DiophantineEquations
 
                     if (CountOfFreeVariables <= 0)
                     {
+                        Console.WriteLine(stringBuilder.ToString());
                         continue;
                     }
 
