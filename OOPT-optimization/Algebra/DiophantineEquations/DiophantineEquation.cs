@@ -68,7 +68,7 @@ namespace OOPT.Optimization.Algebra.DiophantineEquations
             }
         }
 
-        public void WriteSolutionIntoConsole()
+        public void WriteSolutionIntoConsoleHumanReadable()
         {
             var la = LinearAlgebraFactory.GetLinearAlgebra<long>();
 
@@ -104,7 +104,60 @@ namespace OOPT.Optimization.Algebra.DiophantineEquations
                 }
             }
         }
+        public void WriteSolutionIntoConsoleMachineReadable()
+        {
+            var la = LinearAlgebraFactory.GetLinearAlgebra<long>();
 
+            if (Messages.Any())
+            {
+                Messages.ForEach(Console.WriteLine);
+            }
+            else
+            {
+                Console.WriteLine($"{CountOfFreeVariables}");
+
+                for (var i = 0; i < CountOfUnknown; ++i)
+                {
+                    var stringBuilder = new StringBuilder("");
+                    // Particular solution of the equation for i row
+                    stringBuilder.Append($"{Matrix[i + CountOfEquation][CountOfUnknown]} ");
+
+                    if (CountOfFreeVariables <= 0)
+                    {
+                        continue;
+                    }
+
+                    // Free variables for i row
+                    for (var j = 0; j < CountOfFreeVariables - 1; ++j)
+                    {
+                        stringBuilder.Append($"{Matrix[i + CountOfEquation][CountOfUnknown - CountOfFreeVariables + j]} ");
+                    }
+
+                    stringBuilder.Append($"{Matrix[i + CountOfEquation][CountOfUnknown - 1]} ");
+                    Console.WriteLine(stringBuilder.ToString());
+                }
+            }
+        }
+
+        public static DiophantineEquation ReadFromConsole()
+        {
+            var firstLine = Console.ReadLine();
+            var equationAndUnknown = firstLine.Split(" ").Select(x => Convert.ToInt32(x)).ToList();
+            var countOfEquation = equationAndUnknown[0];
+            var countOfUnknown = equationAndUnknown[1];
+            var list = new List<List<long>>();
+            for (int i = 0; i < countOfEquation; i++)
+            {
+                var line = Console.ReadLine().Split(" ").Select(x => Convert.ToInt64(x)).ToList();
+                line[countOfUnknown] = -line[countOfUnknown];
+                list.Add(line);
+
+            }
+
+            var de = new DiophantineEquation(countOfEquation, countOfUnknown);
+            de.SetMatrix(list);
+            return de;
+        }
         public bool CheckResult()
         {
             var testValues = new long[] { 0, 2, 5, 31, 54 };
