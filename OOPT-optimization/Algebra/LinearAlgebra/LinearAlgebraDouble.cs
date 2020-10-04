@@ -102,5 +102,14 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
         public double Max<TIn>(TIn[] a, Func<TIn, double> f) => a.Max(f);
 
         public double Sign(double a) => a >= 0 ? 1 : -1;
+        public int Compare(double a, double b)
+        {
+            if (a < b)
+            {
+                return -1;
+            }
+
+            return a > b ? 1 : 0;
+        }
     }
 }

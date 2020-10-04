@@ -21,9 +21,17 @@ namespace OOPT.Optimization.Algebra
             Count = _components.Length;
         }
 
-        public Vector(int size)
+        public Vector(int size, T initializeValue = default)
         {
             _components = new T[size];
+            Count = size;
+
+            if (Equals(initializeValue, default)) return;
+
+            for (var i = 0L; i < _components.LongLength; i++)
+            {
+                _components[i] = initializeValue;
+            }
         }
 
         public T this[int index]

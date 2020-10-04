@@ -11,5 +11,6 @@ namespace OOPT.Optimization.Algebra.Interfaces
         IVector<T> this[int index] { get; set; }
 
         T this[int row, int column] { get; set; }
+
     }
 }

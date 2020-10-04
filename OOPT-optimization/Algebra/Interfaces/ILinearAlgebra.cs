@@ -51,5 +51,6 @@ namespace OOPT.Optimization.Algebra.Interfaces
 
         T Sign(T a);
 
+        int Compare(T a, T b);
     }
 }

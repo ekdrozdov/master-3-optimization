@@ -8,20 +8,60 @@ namespace OOPT.Optimization.Algebra
 {
     public class Matrix<T> : IMatrix<T>
     {
-        private readonly IVector<T>[] components;
+        private readonly IVector<T>[] _components;
+
+        public Matrix(int rows, int columns, IEnumerable<T> defaultValuesForRows = default)
+        {
+            if (rows < 0)
+            {
+                throw new ArgumentException("Negative rows count", nameof(rows));
+            }
+
+            if (columns < 0)
+            {
+                throw new ArgumentException("Negative columns count", nameof(columns));
+            }
+
+            var valuesForRows = defaultValuesForRows?.ToArray();
+
+            if (valuesForRows != null && valuesForRows.Length != rows)
+            {
+                throw new ArgumentException("Not enough elements", nameof(defaultValuesForRows));
+            }
+
+            _components = new IVector<T>[rows];
+
+            if (valuesForRows == null)
+            {
+                for (var i = 0L; i < rows; i++)
+                {
+                    _components[i] = new Vector<T>(columns);
+                }
+            }
+            else
+            {
+                for (var i = 0; i < rows; i++)
+                {
+                    _components[i] = new Vector<T>(columns, valuesForRows[i]);
+                }
+            }
+
+            RowCount = _components.Length;
+            ColumnsCount = new Vector<int>(_components.Select(x => x.Count).ToArray());
+        }
 
         public Matrix(IEnumerable<IVector<T>> components)
         {
             var incoming = components.ToArray();
 
-            this.components = new IVector<T>[incoming.LongCount()];
+            this._components = new IVector<T>[incoming.LongCount()];
 
-            for (var i = 0; i < this.components.LongLength; i++)
+            for (var i = 0; i < this._components.LongLength; i++)
             {
-                this.components[i] = incoming.ElementAt(i).Clone();
+                this._components[i] = incoming.ElementAt(i).Clone();
             }
 
-            RowCount = this.components.Length;
+            RowCount = this._components.Length;
             ColumnsCount = new Vector<int>(incoming.Select(x => x.Count()).ToArray());
         }
 
@@ -31,8 +71,8 @@ namespace OOPT.Optimization.Algebra
 
         public T this[int row, int column]
         {
-            get => RowCount < row && ColumnsCount[column] < column
-                ? components[row][column]
+            get => RowCount > row && ColumnsCount[column] > column
+                ? _components[row][column]
                 : throw new ArgumentOutOfRangeException(nameof(row) + " or " + nameof(column));
             set
             {
@@ -41,13 +81,14 @@ namespace OOPT.Optimization.Algebra
                     throw new ArgumentOutOfRangeException(nameof(row) + " or " + nameof(column));
                 }
 
-                components[row][column] = value;
+                _components[row][column] = value;
             }
         }
 
         public IVector<T> this[int row]
         {
-            get => RowCount < row ? components[row] : throw new ArgumentOutOfRangeException(nameof(row));
+            get => 
+                RowCount > row ? _components[row] : throw new ArgumentOutOfRangeException(nameof(row));
             set
             {
                 if (RowCount <= row)
@@ -55,13 +96,13 @@ namespace OOPT.Optimization.Algebra
                     throw new ArgumentOutOfRangeException(nameof(row));
                 }
 
-                components[row] = value;
+                _components[row] = value;
             }
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (var vector in components)
+            foreach (var vector in _components)
             {
                 foreach (var element in vector)
                 {
@@ -72,12 +113,12 @@ namespace OOPT.Optimization.Algebra
 
         IEnumerator<IVector<T>> IEnumerable<IVector<T>>.GetEnumerator()
         {
-            return ((IEnumerable<IVector<T>>) components).GetEnumerator();
+            return ((IEnumerable<IVector<T>>) _components).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return components.GetEnumerator();
+            return _components.GetEnumerator();
         }
     }
 }

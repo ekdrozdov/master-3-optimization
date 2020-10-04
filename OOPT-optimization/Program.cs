@@ -1,5 +1,6 @@
 ﻿using System;
 using OOPT.Optimization.Algebra;
+using OOPT.Optimization.Algebra.DiophantineEquations;
 using OOPT.Optimization.Algebra.Interfaces;
 using OOPT.Optimization.FunctionalAnalysis;
 using OOPT.Optimization.FunctionalAnalysis.Functionals;
@@ -11,18 +12,29 @@ namespace OOPT.Optimization
     {
         static void Main(string[] args)
         {
-            var point1 = new Vector<double>(new[] { 1d });
-            var point2 = new Vector<double>(new[] { 2d });
-            var functional = new IntegralFunctional<double>(new[] { point1, point2 }, 4);
-            var f = new LinearFunction<double>().Bind(new Vector<double>(new[] { 10d, 0d }));
-            var r = functional.Value(f);
-            //    var r1 = functional.Gradient((IDifferentiableFunction<double>)f);
-            Console.WriteLine(r);
-            /*
-                        foreach (var d in r1)
-                        {
-                            Console.WriteLine(d);
-                        }*/
+            var result = false;
+            var de = DiophantineEquation.ReadFromConsole();
+
+            try
+            {
+                result = de.Solve();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("NO");
+                Console.WriteLine(e.Message);
+
+                return;
+            }
+
+            if (result)
+            {
+                de.WriteSolutionIntoConsoleMachineReadable();
+            }
+            else
+            {
+                Console.WriteLine("NO");
+            }
         }
     }
 }

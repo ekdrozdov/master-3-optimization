@@ -107,7 +107,17 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
         public Complex Pow(Complex a, int power) => Complex.Pow(a, power);
 
         public Complex Max<TIn>(TIn[] a, Func<TIn, Complex> f) => a.Max(f);
+
         public Complex Sign(Complex a) => a.Real >= 0 ? 1 : -1;
 
+        public int Compare(Complex a, Complex b)
+        {
+            if (a.Magnitude < b.Magnitude)
+            {
+                return -1;
+            }
+
+            return a.Magnitude > b.Magnitude ? 1 : 0;
+        }
     }
 }
