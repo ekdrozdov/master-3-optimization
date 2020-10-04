@@ -33,7 +33,7 @@ namespace OOPT.Optimization.FunctionalAnalysis
             }
 
             return LinearAlgebra.Value.Sum(parameters[^1],
-                                            LinearAlgebra.Value.Dot(point.ToArray(), parameters.Take(parameters.Count - 1).ToArray()));
+                                           LinearAlgebra.Value.Dot(point.ToArray(), parameters.Take(parameters.Count - 1).ToArray()));
         }
     }
 }
