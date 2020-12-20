@@ -1,9 +1,9 @@
 using OOPT.Optimization.Algebra.Interfaces;
 
-namespace OOPT.Optimization.FunctionalAnalysis.Interfaces
+namespace OOPT.Optimization.FunctionalAnalysis.Functions
 {
-    public interface IFunction<T>
-    {
-        T Value(IVector<T> point);
-    }
+  public interface IFunction<T>
+  {
+    T Value(IVector<T> point);
+  }
 }

@@ -1,9 +1,9 @@
 using OOPT.Optimization.Algebra.Interfaces;
 
-namespace OOPT.Optimization.FunctionalAnalysis.Interfaces
+namespace OOPT.Optimization.FunctionalAnalysis.Functions
 {
-    public interface IParametricFunction<T>
-    {
-        T Value(IVector<T> parameters, IVector<T> point);
-    }
+  public interface IParametricFunction<T>
+  {
+    IFunction<T> Bind(IVector<T> parameters);
+  }
 }

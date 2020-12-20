@@ -1,9 +1,9 @@
 using OOPT.Optimization.Algebra.Interfaces;
 
-namespace OOPT.Optimization.FunctionalAnalysis.Interfaces
+namespace OOPT.Optimization.FunctionalAnalysis.Functions
 {
-    public interface IDifferentiableFunction<T> : IFunction<T>
-    {
-        IVector<T> Gradient(IVector<T> point);
-    }
+  public interface IDifferentiableFunction<T> : IFunction<T>
+  {
+    IVector<T> Gradient(IVector<T> point);
+  }
 }
