@@ -4,11 +4,12 @@ using OOPT.Optimization.Algebra;
 using OOPT.Optimization.Algebra.Interfaces;
 using OOPT.Optimization.Algebra.LinearAlgebra;
 using OOPT.Optimization.FunctionalAnalysis.Functions;
+using OOPT.Optimization.FunctionalAnalysis.Functions.Interfaces;
 
 namespace OOPT.Optimization.MathAnalysis.Integrates
 {
-  public static class GaussLegendreRule<T>
-  {
+  public static class GaussLegendreRule<T> where T : unmanaged
+    {
     private static readonly Lazy<ILinearAlgebra<T>> LinearAlgebra = new Lazy<ILinearAlgebra<T>>(LinearAlgebraFactory.GetLinearAlgebra<T>);
 
     public static T Integrate(IFunction<T> function, IVector<T> from, IVector<T> to, int order)

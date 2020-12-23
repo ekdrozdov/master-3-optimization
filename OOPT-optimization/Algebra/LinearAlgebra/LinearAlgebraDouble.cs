@@ -46,18 +46,20 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
 
         public double Abs(double a) => Math.Abs(a);
 
-        public double Sum(double[] a, double[] b)
+        public double Sqrt(double a) => Math.Sqrt(a);
+
+        public double[] Sum(double[] a, double[] b)
         {
             if (a.Length != b.Length)
             {
                 throw new ArgumentOutOfRangeException();
             }
 
-            double sum = 0;
+            var sum = new double[a.Length];
 
             for (var i = 0; i < a.Length; ++i)
             {
-                sum = b[i] * a[i];
+                sum[i] += b[i] + a[i];
             }
 
             return sum;
@@ -81,7 +83,7 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
         //a=-alpha+a
         public void Sub(ref double[] a, double alpha) => Add(ref a, -alpha);
 
-        public void Div(ref double[] a, double alpha) => Mult(ref a, 1 / alpha);
+        public void Div(ref double[] a, double alpha) => Mult(ref a, 1 / (alpha + double.Epsilon));
 
         public void Add(ref double a, double b) => a += b;
 
@@ -91,7 +93,12 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
 
         public double Sum(double a, double b) => a + b;
 
-        public double Div(double a, double b) => a / b;
+        public double Div(double a, double b) => a / (b+double.Epsilon);
+
+        public double Exp(double a)
+        {
+            return Math.Exp(a);
+        }
 
         public double Mult(double a, double b) => a * b;
 
@@ -102,6 +109,9 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
         public double Max<TIn>(TIn[] a, Func<TIn, double> f) => a.Max(f);
 
         public double Sign(double a) => a >= 0 ? 1 : -1;
+
+        public double DotReal(double[] a, double[] b) => Dot(a, b);
+
         public int Compare(double a, double b)
         {
             if (a < b)

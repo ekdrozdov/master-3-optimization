@@ -7,12 +7,19 @@ using OOPT.Optimization.Algebra.Interfaces;
 
 namespace OOPT.Optimization.Algebra
 {
-    public class Vector<T> : IVector<T>
+    public class Vector<T> : IVector<T> where T : unmanaged
     {
         private readonly T[] _components;
 
         public int Count { get; }
 
+        public Vector(params T[] components)
+        {
+            var incoming = components.ToArray();
+            _components = new T[incoming.Length];
+            incoming.ToArray().CopyTo(_components, 0);
+            Count = _components.Length;
+        }
         public Vector(IEnumerable<T> components)
         {
             var incoming = components.ToArray();
@@ -50,7 +57,7 @@ namespace OOPT.Optimization.Algebra
 
         public IEnumerator<T> GetEnumerator()
         {
-            return ((IEnumerable<T>) _components).GetEnumerator();
+            return ((IEnumerable<T>)_components).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

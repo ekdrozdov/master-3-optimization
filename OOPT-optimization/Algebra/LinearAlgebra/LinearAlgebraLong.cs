@@ -46,6 +46,11 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra {
 
         public long Abs(long a) => Math.Abs(a);
 
+        public long Sqrt(long a)
+        {
+            return Convert.ToInt64(Math.Sqrt(a));
+        }
+
         public long Dot(long[] a, long[] b)
         {
             if (a.Length != b.Length)
@@ -79,23 +84,26 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra {
 
         public long Sum(long a, long b) => a + b;
 
-        public long Sum(long[] a, long[] b)
+        public long[] Sum(long[] a, long[] b)
         {
             if (a.Length != b.Length)
             {
                 throw new ArgumentOutOfRangeException();
             }
 
-            long sum = 0;
+            var sum = new long[a.Length];
 
             for (var i = 0; i < a.Length; ++i)
             {
-                sum += b[i] * a[i];
+                sum[i] += b[i] * a[i];
             }
 
             return sum;
         }
-
+        public double Exp(long a)
+        {
+            return Math.Exp(a);
+        }
         public long Sum<TIn>(TIn[] a, Func<TIn, long> f) => a.Aggregate(0L, (x, y) => x + f(y));
 
         public long Div(long a, long b) => a / b;
@@ -109,6 +117,11 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra {
         public long Max<TIn>(TIn[] a, Func<TIn, long> f) => a.Max(f);
 
         public long Sign(long a) => a >= 0 ? 1 : -1;
+
+        public double DotReal(long[] a, long[] b)
+        {
+            throw new NotImplementedException();
+        }
 
         public int Compare(long a, long b)
         {

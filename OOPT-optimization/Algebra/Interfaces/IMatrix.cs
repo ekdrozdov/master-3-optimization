@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace OOPT.Optimization.Algebra.Interfaces
 {
-    public interface IMatrix<T> : IEnumerable<T>, IEnumerable<IVector<T>>
+    public interface IMatrix<T> : IEnumerable<T>, IEnumerable<IVector<T>> where T : unmanaged
     {
         int RowCount { get; }
 
@@ -12,5 +12,6 @@ namespace OOPT.Optimization.Algebra.Interfaces
 
         T this[int row, int column] { get; set; }
 
+        IMatrix<T> Clone();
     }
 }

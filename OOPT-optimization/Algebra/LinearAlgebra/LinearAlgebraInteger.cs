@@ -47,6 +47,8 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
 
         public int Abs(int a) => Math.Abs(a);
 
+        public int Sqrt(int a) => Convert.ToInt32(Math.Sqrt(a));
+
         public int Dot(int[] a, int[] b)
         {
             if (a.Length != b.Length)
@@ -80,18 +82,18 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
 
         public int Sum(int a, int b) => a + b;
 
-        public int Sum(int[] a, int[] b)
+        public int[] Sum(int[] a, int[] b)
         {
             if (a.Length != b.Length)
             {
                 throw new ArgumentOutOfRangeException();
             }
 
-            int sum = 0;
+            var sum = new int[a.Length];
 
             for (var i = 0; i < a.Length; ++i)
             {
-                sum += b[i] * a[i];
+                sum[i] += b[i] + a[i];
             }
 
             return sum;
@@ -101,6 +103,11 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
 
         public int Div(int a, int b) => a / b;
 
+        public double Exp(int a)
+        {
+            return Math.Exp(a);
+        }
+
         public int Mult(int a, int b) => a * b;
 
         public int Pow(int a, int power) => a.FastPower(power);
@@ -108,6 +115,11 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
         public int Max<TIn>(TIn[] a, Func<TIn, int> f) => a.Max(f);
 
         public int Sign(int a) => a >= 0 ? 1 : -1;
+
+        public double DotReal(int[] a, int[] b)
+        {
+            return Dot(a, b);
+        }
 
         public int Compare(int a, int b)
         {
