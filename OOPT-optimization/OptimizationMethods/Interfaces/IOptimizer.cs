@@ -1,15 +1,17 @@
 ﻿using OOPT.Optimization.Algebra.Interfaces;
 using OOPT.Optimization.FunctionalAnalysis.Functionals;
+using OOPT.Optimization.FunctionalAnalysis.Functionals.Interfaces;
 using OOPT.Optimization.FunctionalAnalysis.Functions;
+using OOPT.Optimization.FunctionalAnalysis.Functions.Interfaces;
 
 namespace OOPT.Optimization.OptimizationMethods.Interfaces
 {
-  interface IOptimizer<T>
-  {
-    IVector<T> Minimize(IFunctional<T> objective,
-        IFunction<T> function,
-        IVector<T> initialParameters,
-        IVector<T> minimumParameters = default,
-        IVector<T> maximumParameters = default);
-  }
+    interface IOptimizer<T> where T : unmanaged
+    {
+        IVector<T> Minimize(IFunctional<T> objective,
+            IParametricFunction<T> function,
+            IVector<T> initialParameters,
+            IVector<T> minimumParameters = default,
+            IVector<T> maximumParameters = default);
+    }
 }

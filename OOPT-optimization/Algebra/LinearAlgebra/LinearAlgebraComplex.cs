@@ -46,6 +46,8 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
 
         public Complex Abs(Complex a) => Complex.Abs(a);
 
+        public Complex Sqrt(Complex a) => Complex.Sqrt(a);
+
         public Complex Dot(Complex[] a, Complex[] b)
         {
             if (a.Length != b.Length)
@@ -57,7 +59,7 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
 
             for (var i = 0; i < a.Length; ++i)
             {
-                dot = b[i] * a[i];
+                dot += b[i] * a[i];
             }
 
             return dot;
@@ -79,18 +81,18 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
 
         public Complex Sum(Complex a, Complex b) => a + b;
 
-        public Complex Sum(Complex[] a, Complex[] b)
+        public Complex[] Sum(Complex[] a, Complex[] b)
         {
             if (a.Length != b.Length)
             {
                 throw new ArgumentOutOfRangeException();
             }
 
-            Complex sum = 0;
+            var sum = new Complex[a.Length];
 
             for (var i = 0; i < a.Length; ++i)
             {
-                sum += b[i] * a[i];
+                sum[i] += b[i] + a[i];
             }
 
             return sum;
@@ -99,6 +101,11 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
         public Complex Sum<TIn>(TIn[] a, Func<TIn, Complex> f) => a.Aggregate(Complex.Zero, (x, y) => x + f(y));
 
         public Complex Div(Complex a, Complex b) => a / b;
+
+        public double Exp(Complex a)
+        {
+            return Complex.Exp(a).Real;
+        }
 
         public Complex Mult(Complex a, Complex b) => a * b;
 
@@ -109,6 +116,22 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
         public Complex Max<TIn>(TIn[] a, Func<TIn, Complex> f) => a.Max(f);
 
         public Complex Sign(Complex a) => a.Real >= 0 ? 1 : -1;
+
+        public double DotReal(Complex[] a, Complex[] b)
+        {
+            if (a.Length != b.Length)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            double dot = 0;
+
+            for (var i = 0; i < a.Length; ++i)
+            {
+                dot = b[i].Real * a[i].Real;
+            }
+
+            return dot;
+        }
 
         public int Compare(Complex a, Complex b)
         {

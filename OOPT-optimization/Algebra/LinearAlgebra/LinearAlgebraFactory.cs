@@ -9,7 +9,7 @@ namespace OOPT.Optimization.Algebra.LinearAlgebra
     {
         private static readonly ConcurrentDictionary<Type, object> LinearAlgebraCache = new ConcurrentDictionary<Type, object>();
 
-        public static ILinearAlgebra<T> GetLinearAlgebra<T>()
+        public static ILinearAlgebra<T> GetLinearAlgebra<T>() where T: unmanaged
         {
             var type = typeof(T);
 

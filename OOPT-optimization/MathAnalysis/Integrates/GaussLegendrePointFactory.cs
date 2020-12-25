@@ -34,7 +34,7 @@ namespace OOPT.Optimization.MathAnalysis.Integrates
         public static GaussPoint<T> GetGaussPoint<T>(
             T intervalBegin,
             T intervalEnd,
-            int order)
+            int order) where T : unmanaged
         {
             return Map(intervalBegin, intervalEnd, GetGaussPoint(order));
         }
@@ -49,7 +49,7 @@ namespace OOPT.Optimization.MathAnalysis.Integrates
         private static GaussPoint<T> Map<T>(
             T intervalBegin,
             T intervalEnd,
-            GaussPoint gaussPoint)
+            GaussPoint gaussPoint) where T : unmanaged
         {
             //TODO: not sure wat this work for Complex
             var la = LinearAlgebraFactory.GetLinearAlgebra<T>();

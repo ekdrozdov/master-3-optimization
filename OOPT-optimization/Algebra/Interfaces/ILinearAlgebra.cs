@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace OOPT.Optimization.Algebra.Interfaces
 {
-    public interface ILinearAlgebra<T>
+    public interface ILinearAlgebra<T> where T : unmanaged
     {
         T GetZeroValue();
 
@@ -19,6 +19,7 @@ namespace OOPT.Optimization.Algebra.Interfaces
 
         T Abs(T a);
 
+        T Sqrt(T a);
         T Dot(T[] a, T[] b);
 
         void Sub(T[] a, T alpha, ref T[] b);
@@ -35,12 +36,13 @@ namespace OOPT.Optimization.Algebra.Interfaces
 
         T Sum(T a, T b);
 
-        T Sum(T[] a, T[] b);
+        T[] Sum(T[] a, T[] b);
 
         T Sum<TIn>(TIn[] a, Func<TIn, T> f);
 
         T Div(T a, T b);
 
+        double Exp(T a);
         T Mult(T a, T b);
 
         T Pow(T a, T power);
@@ -50,6 +52,8 @@ namespace OOPT.Optimization.Algebra.Interfaces
         T Max<TIn>(TIn[] a, Func<TIn, T> f);
 
         T Sign(T a);
+
+        double DotReal(T[] a, T[] b);
 
         int Compare(T a, T b);
     }
