@@ -37,12 +37,12 @@ namespace OOPT.Optimization.OptimizationMethods
             var la = LinearAlgebra.Value;
 
 
-            var xNew = initialParameters.Clone();
+            var xNew = initialParameters.Clone() as IVector<T>;
             var bindF = function.Bind(xNew);
             var curVal = objective.Value(bindF);
             var prevVal = curVal;
             var gradient = objective.Gradient(bindF);
-            var p = objective.Gradient(bindF).Clone();
+            var p = objective.Gradient(bindF).Clone() as IVector<T>;
             gradient.Mult(la.Cast(-1));
             var gradSquare = la.Dot(p.ToArray(), p.ToArray());
 
@@ -57,26 +57,7 @@ namespace OOPT.Optimization.OptimizationMethods
                 alpha = GoldenRatioMethod<T>.FindMin(objective, function, xNew, p, Eps);
                 xNew = xNew.Add(p.MultWithCloning(la.Mult(la.Cast(-1), alpha)));
 
-                if (!(maximumParameters is null))
-                {
-                    for (int i = 0; i < xNew.Count; i++)
-                    {
-                        if (la.Compare(xNew[i], maximumParameters[i]) == -1)
-                        {
-                            xNew[i] = maximumParameters[i];
-                        }
-                    }
-                }
-                if (!(minimumParameters is null))
-                {
-                    for (int i = 0; i < xNew.Count; i++)
-                    {
-                        if (la.Compare(xNew[i], minimumParameters[i]) == 1)
-                        {
-                            xNew[i] = minimumParameters[i];
-                        }
-                    }
-                }
+                this.ApplyMinimumAndMaximumValues(minimumParameters, maximumParameters, xNew, la);
                 bindF = function.Bind(xNew);
                 newGrad = objective.Gradient(bindF).Mult(la.Cast(-1));
                 newGradSquare = la.Dot(newGrad.ToArray(), newGrad.ToArray());

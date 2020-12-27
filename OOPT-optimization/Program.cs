@@ -13,12 +13,12 @@ namespace OOPT.Optimization
     {
         static void Main(string[] args)
         {
-            var point1 = new Vector<double>(new[] { 0d });
-            var point2 = new Vector<double>(new[] { 2d });
-            var point3 = new Vector<double>(new[] { 3d });
-            var point4 = new Vector<double>(new[] { 1d });
+            var point1 = new Vector<double>(0d);
+            var point2 = new Vector<double>(2d);
+            var point3 = new Vector<double>(3d);
+            var point4 = new Vector<double>(1d);
 
-            var functional = new L2Functional<double>(new[] { ((IVector<double>)point1, 1d), ((IVector<double>)point2, 9d), ((IVector<double>)point3, 16d), ((IVector<double>)point4, 4d) });
+            var functional = new L2Functional<double>((point1, 1d), (point2, 9d), (point3, 16d), (point4, 4d));
             var optimizer = new GaussNewton<double>(1000, 1e-14);
            // var optimizer = new ImitateAnnealing<double>(10000000, 1e-4); 121
 
@@ -30,7 +30,7 @@ namespace OOPT.Optimization
             //var r = functional.Value(new PolynomialFunction<double>().Bind(value));
             //Console.WriteLine(r);
             var result = false;
-            var de = DiophantineEquation.ReadFromConsole();
+            /*var de = DiophantineEquation.ReadFromConsole();
 
             try
             {
@@ -51,7 +51,7 @@ namespace OOPT.Optimization
             else
             {
                 Console.WriteLine("NO");
-            }
+            }*/
         }
     }
 }

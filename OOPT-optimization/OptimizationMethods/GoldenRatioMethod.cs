@@ -24,30 +24,30 @@ namespace OOPT.Optimization.OptimizationMethods
 
             var fx = function.Bind(s.AddWithCloning(p.MultWithCloning(la.Mult(x, la.Cast(-1)))));
             var fy = function.Bind(s.AddWithCloning(p.MultWithCloning(la.Mult(y, la.Cast(-1)))));
+            var valueX = functional.Value(fx);
+
+            var valueY = functional.Value(fy);
             while (la.Compare(la.Abs(la.Sub(b, a)), la.Cast(1e-5)) == 1)
             {
-                var valueX = functional.Value(fx);
-
-                var valueY = functional.Value(fy);
-
                 if (la.Compare(valueX, valueY) == -1)
                 {
                     b = y;
                     y = x;
                     fy = fx;
+                    valueY = valueX;
                     x = la.Sub(la.Sum(b, a), y);
-                    var addWithCloning = s.AddWithCloning(p.MultWithCloning(la.Mult(x, la.Cast(-1))));
-                    fx = function.Bind(addWithCloning);
+                    fx = function.Bind(s.AddWithCloning(p.MultWithCloning(la.Mult(x, la.Cast(-1)))));
+                    valueX = functional.Value(fx);
                 }
                 else
                 {
                     a = x;
                     x = y;
                     fx = fy;
+                    valueX = valueY;
                     y = la.Sub(la.Sum(b, a), x);
-                    var addWithCloning = s.AddWithCloning(p.MultWithCloning(la.Mult(y, la.Cast(-1))));
-
                     fy = function.Bind(s.AddWithCloning(p.MultWithCloning(la.Mult(y, la.Cast(-1)))));
+                    valueY = functional.Value(fy);
                 }
             }
             return (la.Div(la.Sum(a, b), la.Cast(2)));

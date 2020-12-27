@@ -30,12 +30,12 @@ namespace OOPT.Optimization.OptimizationMethods
         {
             var la = LinearAlgebra.Value;
 
-            var xOld = initialParameters.Clone();
+            var xOld = initialParameters.Clone() as IVector<T>;
 
             //Calculate initial gradient
             var bindF = function.Bind(xOld);
             var fiNew = objective.Gradient(bindF);
-            var xNew = initialParameters.Clone();
+            var xNew = initialParameters.Clone() as IVector<T>;
             var k = 0;
             var normOld = la.Sqrt(la.Dot(fiNew.ToArray(), fiNew.ToArray()));
             var normNew = la.Cast(1000);
@@ -48,10 +48,11 @@ namespace OOPT.Optimization.OptimizationMethods
 
                 var gamma = GoldenRatioMethod<T>.FindMin(objective, function, xOld, fiNew, Eps);
 
-                xOld = xNew.Clone();
+                xOld = xNew.Clone() as IVector<T>;
                 xNew = xOld.Sub(fiNew.MultWithCloning(gamma));
+                this.ApplyMinimumAndMaximumValues(minimumParameters, maximumParameters, xNew, la);
             }
-           
+
             return xNew;
         }
 

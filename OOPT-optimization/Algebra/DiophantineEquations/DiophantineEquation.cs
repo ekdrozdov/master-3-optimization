@@ -57,7 +57,7 @@ namespace OOPT.Optimization.Algebra.DiophantineEquations
         private void PrepareMatrix()
         {
             for (var i = 0; i < CountOfEquation; ++i)
-                Matrix[i] = OriginalMatrix[i].Clone();
+                Matrix[i] = OriginalMatrix[i].Clone() as IVector<long>;
 
             for (var i = 0; i < CountOfUnknown; ++i)
             {

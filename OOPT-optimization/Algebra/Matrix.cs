@@ -10,45 +10,8 @@ namespace OOPT.Optimization.Algebra
     {
         private readonly IVector<T>[] _components;
 
-        public Matrix(int rows, int columns, params T[] defaultValuesForRows)
-        {
-            if (rows < 0)
-            {
-                throw new ArgumentException("Negative rows count", nameof(rows));
-            }
-
-            if (columns < 0)
-            {
-                throw new ArgumentException("Negative columns count", nameof(columns));
-            }
-
-            var valuesForRows = defaultValuesForRows?.ToArray();
-
-            if (valuesForRows.Length != 0 && valuesForRows.Length != rows)
-            {
-                throw new ArgumentException("Not enough elements", nameof(defaultValuesForRows));
-            }
-
-            _components = new IVector<T>[rows];
-
-            if (valuesForRows.Length == 0)
-            {
-                for (var i = 0L; i < rows; i++)
-                {
-                    _components[i] = new Vector<T>(columns);
-                }
-            }
-            else
-            {
-                for (var i = 0; i < rows; i++)
-                {
-                    _components[i] = new Vector<T>(columns, valuesForRows[i]);
-                }
-            }
-
-            RowCount = _components.Length;
-            ColumnsCount = new Vector<int>(_components.Select(x => x.Count).ToArray());
-        }
+        public Matrix(int rows, int columns, params T[] defaultValuesForRows) : this(rows, columns, defaultValuesForRows.ToList())
+        { }
 
         public Matrix(int rows, int columns, IEnumerable<T> defaultValuesForRows)
         {
@@ -90,20 +53,8 @@ namespace OOPT.Optimization.Algebra
             ColumnsCount = new Vector<int>(_components.Select(x => x.Count).ToArray());
         }
 
-        public Matrix(params IVector<T>[] components)
-        {
-            var incoming = components.ToArray();
-
-            this._components = new IVector<T>[incoming.LongCount()];
-
-            for (var i = 0; i < this._components.LongLength; i++)
-            {
-                this._components[i] = incoming.ElementAt(i).Clone();
-            }
-
-            RowCount = this._components.Length;
-            ColumnsCount = new Vector<int>(incoming.Select(x => x.Count()).ToArray());
-        }
+        public Matrix(params IVector<T>[] components) : this(components.ToList())
+        { }
 
         public Matrix(IEnumerable<IVector<T>> components)
         {
@@ -113,7 +64,7 @@ namespace OOPT.Optimization.Algebra
 
             for (var i = 0; i < this._components.LongLength; i++)
             {
-                this._components[i] = incoming.ElementAt(i).Clone();
+                this._components[i] = incoming.ElementAt(i).Clone() as IVector<T>;
             }
 
             RowCount = this._components.Length;
@@ -140,7 +91,7 @@ namespace OOPT.Optimization.Algebra
             }
         }
 
-        public IMatrix<T> Clone()
+        public object Clone()
         {
             return new Matrix<T>(_components);
         }

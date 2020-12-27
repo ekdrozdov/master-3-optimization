@@ -1,28 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using OOPT.Optimization.Algebra.Interfaces;
 
 namespace OOPT.Optimization.Algebra
 {
-    public class Vector<T> : IVector<T> where T : unmanaged
+    public class Vector<T> : IVector<T>
     {
         private readonly T[] _components;
 
         public int Count { get; }
 
-        public Vector(params T[] components)
-        {
-            var incoming = components.ToArray();
-            _components = new T[incoming.Length];
-            incoming.ToArray().CopyTo(_components, 0);
-            Count = _components.Length;
-        }
+        public Vector(params T[] components) : this(components.ToList()) { }
+
         public Vector(IEnumerable<T> components)
         {
-            var incoming = components.ToArray();
+            var incoming = components.Select(t => t is ICloneable t1 ? (T) t1.Clone() : t).ToArray();
             _components = new T[incoming.Length];
             incoming.ToArray().CopyTo(_components, 0);
             Count = _components.Length;
@@ -37,7 +31,7 @@ namespace OOPT.Optimization.Algebra
 
             for (var i = 0L; i < _components.LongLength; i++)
             {
-                _components[i] = initializeValue;
+                _components[i] = initializeValue is ICloneable t1 ? (T) t1.Clone() : initializeValue;
             }
         }
 
@@ -57,12 +51,12 @@ namespace OOPT.Optimization.Algebra
 
         public IEnumerator<T> GetEnumerator()
         {
-            return ((IEnumerable<T>)_components).GetEnumerator();
+            return ((IEnumerable<T>) _components).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IVector<T> Clone()
+        public object Clone()
         {
             return new Vector<T>(_components);
         }

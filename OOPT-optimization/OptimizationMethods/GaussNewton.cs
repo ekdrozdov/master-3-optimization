@@ -27,7 +27,7 @@ namespace OOPT.Optimization.OptimizationMethods
             IVector<T> maximumParameters = default)
         {
             var la = LinearAlgebra.Value;
-            var x = initialParameters.Clone();
+            var x = initialParameters.Clone() as IVector<T>;
 
             var bindF = function.Bind((x));
             var iter = 0;
@@ -45,7 +45,7 @@ namespace OOPT.Optimization.OptimizationMethods
                 var temp = jTj_1jT.Mult(residual);
                 var gamma = GoldenRatioMethod<T>.FindMin(objective, function, x, temp, Eps);
                 x.Sub(temp.Mult(gamma));
-
+                this.ApplyMinimumAndMaximumValues(minimumParameters, maximumParameters, x, la);
                 oldError = error;
                 bindF = function.Bind(x);
                 residual = objective.Residual(bindF);

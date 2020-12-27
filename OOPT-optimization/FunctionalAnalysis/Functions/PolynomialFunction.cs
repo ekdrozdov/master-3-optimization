@@ -7,6 +7,9 @@ using OOPT.Optimization.FunctionalAnalysis.Functions.Interfaces;
 
 namespace OOPT.Optimization.FunctionalAnalysis.Functions
 {
+    /// <summary>
+    /// Function realize ax^p+bx^(p-1)+cx^(p-2)....+d
+    /// </summary>
     public class PolynomialFunction<T> : IParametricFunction<T> where T : unmanaged
     {
         private static readonly Lazy<ILinearAlgebra<T>> LinearAlgebra = new Lazy<ILinearAlgebra<T>>(LinearAlgebraFactory.GetLinearAlgebra<T>);

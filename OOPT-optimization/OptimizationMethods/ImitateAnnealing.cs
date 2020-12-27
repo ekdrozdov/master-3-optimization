@@ -1,5 +1,6 @@
 ﻿using System;
 using MathNet.Numerics.Distributions;
+using OOPT.Optimization.Algebra.Extensions;
 using OOPT.Optimization.Algebra.Interfaces;
 using OOPT.Optimization.Algebra.LinearAlgebra;
 using OOPT.Optimization.FunctionalAnalysis.Functionals;
@@ -33,8 +34,8 @@ namespace OOPT.Optimization.OptimizationMethods
         {
             var k = 0;
             var la = LinearAlgebra.Value;
-            IVector<T> xPrev = initialParameters.Clone();
-            IVector<T> xNew = initialParameters.Clone();
+            IVector<T> xPrev = initialParameters.Clone() as IVector<T>;
+            IVector<T> xNew = initialParameters.Clone() as IVector<T>;
 
             var normalDist = new Normal(Mean, StdDev);
             T prevValue = objective.Value(function.Bind(xPrev));
@@ -49,27 +50,7 @@ namespace OOPT.Optimization.OptimizationMethods
                     xNew[i] = la.Sum(xPrev[i], la.Cast(nR));
                 }
 
-                if (!(maximumParameters is null))
-                {
-                    for (int i = 0; i < xNew.Count; i++)
-                    {
-                        if (la.Compare(xNew[i], maximumParameters[i]) == -1)
-                        {
-                            xNew[i] = maximumParameters[i];
-                        }
-                    }
-                }
-
-                if (!(minimumParameters is null))
-                {
-                    for (int i = 0; i < xNew.Count; i++)
-                    {
-                        if (la.Compare(xNew[i], minimumParameters[i]) == 1)
-                        {
-                            xNew[i] = minimumParameters[i];
-                        }
-                    }
-                }
+                this.ApplyMinimumAndMaximumValues(minimumParameters, maximumParameters, xNew, la);
 
                 var newValue = objective.Value(function.Bind(xNew));
 
@@ -78,7 +59,7 @@ namespace OOPT.Optimization.OptimizationMethods
                 if (la.Compare(sub, la.GetZeroValue()) == -1) // || la.Exp(la.Mult(la.Cast(-1/t), sub)) >= rand.NextDouble())
                 {
                     prevValue = newValue;
-                    xPrev = xNew.Clone();
+                    xPrev = xNew.Clone() as IVector<T>;
                 }
             } while ((MaxIter.HasValue && MaxIter > k++ && la.Compare(prevValue, Eps) == 1) || (!MaxIter.HasValue && la.Compare(prevValue, Eps) == 1));
 

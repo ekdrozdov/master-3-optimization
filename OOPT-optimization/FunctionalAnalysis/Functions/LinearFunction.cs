@@ -1,12 +1,16 @@
-using System;
-using System.Linq;
 using OOPT.Optimization.Algebra;
 using OOPT.Optimization.Algebra.Interfaces;
 using OOPT.Optimization.Algebra.LinearAlgebra;
 using OOPT.Optimization.FunctionalAnalysis.Functions.Interfaces;
+using System;
+using System.Drawing;
+using System.Linq;
 
 namespace OOPT.Optimization.FunctionalAnalysis.Functions
 {
+    /// <summary>
+    /// Function realize ax+by+cz....+d
+    /// </summary>
     public class LinearFunction<T> : IParametricFunction<T> where T : unmanaged
     {
         private static readonly Lazy<ILinearAlgebra<T>> LinearAlgebra = new Lazy<ILinearAlgebra<T>>(LinearAlgebraFactory.GetLinearAlgebra<T>);
@@ -18,7 +22,7 @@ namespace OOPT.Optimization.FunctionalAnalysis.Functions
                 throw new ArgumentException(nameof(point));
             }
 
-            return new Vector<T>(parameters.Select((x, i) => i == parameters.Count - 1 ? LinearAlgebra.Value.GetZeroValue() : point[i]));
+            return new Vector<T>(parameters.Select((x, i) => i == parameters.Count - 1 ? LinearAlgebra.Value.Cast(1) : point[i]));
         }
 
         public IFunction<T> Bind(IVector<T> parameters) =>

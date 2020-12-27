@@ -42,17 +42,15 @@ namespace OOPT.Optimization.FunctionalAnalysis.Functionals
                      _elements[0].target);
 
             var first = f.Gradient(_elements[0].point)
-                .Mult(LinearAlgebra.Value.Div(sub, LinearAlgebra.Value.Abs(sub)));
+                .Mult(LinearAlgebra.Value.Sign(sub));
 
             return _elements.Skip(1)
                 .Aggregate(first,
                            (prev, curr) => prev.Add(
                                                     f.Gradient(curr.point)
-                                                        .Mult(LinearAlgebra.Value.Div(LinearAlgebra.Value
+                                                        .Mult(LinearAlgebra.Value.Sign(LinearAlgebra.Value
                                                                                           .Sub(f.Value(curr.point),
-                                                                                               curr.target), LinearAlgebra.Value.Abs(LinearAlgebra.Value
-                                                                                                                                         .Sub(f.Value(curr.point),
-                                                                                                                                              curr.target))))));
+                                                                                               curr.target)))));
         }
 
         //sum of abs(f(xi)-real(xi))
