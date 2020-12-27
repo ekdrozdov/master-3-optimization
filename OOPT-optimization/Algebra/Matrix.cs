@@ -27,14 +27,14 @@ namespace OOPT.Optimization.Algebra
 
             var valuesForRows = defaultValuesForRows?.ToArray();
 
-            if (valuesForRows != null && valuesForRows.Length != rows)
+            if (valuesForRows.Length != 0 && valuesForRows.Length != rows)
             {
                 throw new ArgumentException("Not enough elements", nameof(defaultValuesForRows));
             }
 
             _components = new IVector<T>[rows];
 
-            if (valuesForRows == null)
+            if (valuesForRows.Length == 0)
             {
                 for (var i = 0L; i < rows; i++)
                 {
